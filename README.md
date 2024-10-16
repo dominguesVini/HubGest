@@ -16,6 +16,7 @@ O **HubGest** é uma plataforma de gestão corporativa voltada para funcionário
 - [ ] Relatórios de ponto e histórico de atividades
 - [ ] Integração com sistema de folha de pagamento
 - [ ] Consulta de holerite
+- [ ] adicionar escolaridade via app
 
  ## Protótipos de tela
   [Protótipo](https://laravel.com/docs/10.x/sail#configuring-a-shell-alias](https://www.figma.com/design/2txiHiHjIonf0DTWYvECnZ/HubGest).
@@ -39,7 +40,17 @@ O **HubGest** é uma plataforma de gestão corporativa voltada para funcionário
    ### a ser feito
    - [ ] Criação do banco de dados(1 semana)
    - [ ] Criação de api para consultar os dados(2 semanas)
-   - [ ] integração do app com api(funcionalidades básicas)(1 semana)
+   - [ ] Integração do app com api(funcionalidades básicas)(1 semana)
+         
+### sprint 03
+   Inicio - 23/12/2024
+   Fim    - 24/02/2025
+   ### a ser feito
+   - [ ] Finalização do app(pronto para uso básico(2 semanas) 
+   - [ ] Exportar app para apk(1 semana)
+   - [ ] Implementação de funcionalizades previstas no escopo da disciplina(2 semanas)
+   - [ ] testes de funcionalidades apos finalizado(1 semana)
+   - [ ] possiveis correções(1 semana)
  
 
 
