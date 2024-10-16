@@ -31,14 +31,14 @@ O **HubGest** é uma plataforma de gestão corporativa voltada para funcionário
    Fim    - 28/10/2024
    ### a ser feito
    - [X] Prototipo de telas no figma(2 semanas)
-   - [X] Modelagem do banco de dados draw.io(1 semanas)
+   - [X] Modelagem do banco de dados draw.io(1 semana)
    - [X] Montagem readme para disciplina(6 dias)
          
 ### sprint 02 Checkpoint 2
    Inicio - 28/10/2024
    Fim    - 25/11/2024
    ### a ser feito
-   - [ ] Criação dos componentes utilizados em comum para todas as telas(1 semanas)
+   - [ ] Criação dos componentes utilizados em comum para todas as telas(1 semana)
    - [ ] Implantação de todas as telas(2 semanas)
    - [ ] Navegação total com dados Fakes(1 semana)
          
