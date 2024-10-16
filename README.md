@@ -26,7 +26,7 @@ O **HubGest** é uma plataforma de gestão corporativa voltada para funcionário
 
 ##  Planejamento de sprints
 
-### sprint 01 
+### sprint 01 Checkpoint 1
    Inicio - 01/10/2024
    Fim    - 28/10/2024
    ### a ser feito
@@ -34,7 +34,7 @@ O **HubGest** é uma plataforma de gestão corporativa voltada para funcionário
    - [X] Modelagem do banco de dados draw.io(1 semanas)
    - [X] Montagem readme para disciplina(6 dias)
          
-### sprint 02 
+### sprint 02 Checkpoint 2
    Inicio - 28/10/2024
    Fim    - 25/11/2024
    ### a ser feito
@@ -42,7 +42,7 @@ O **HubGest** é uma plataforma de gestão corporativa voltada para funcionário
    - [ ] Implantação de todas as telas(2 semanas)
    - [ ] Navegação total com dados Fakes(1 semana)
          
-### sprint 03
+### sprint 03 Checkpoint 3
    Inicio - 25/11/2024
    Fim    - 23/12/2024
    ### a ser feito
@@ -50,7 +50,7 @@ O **HubGest** é uma plataforma de gestão corporativa voltada para funcionário
    - [ ] Criação de api para consultar os dados(2 semanas)
    - [ ] Integração do app com api(funcionalidades básicas)(1 semana)
          
-### sprint 04
+### sprint 04 Checkpoint 4
    Inicio - 23/12/2024
    Fim    - 24/02/2025
    ### a ser feito
