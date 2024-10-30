@@ -3,7 +3,7 @@
 # para rodar o projeto:
 - git clone https://github.com/dominguesVini/HubGest.git
 - cd HubGest
-- npm i
+- yarn install
 - npx expo start
 
 ## Sobre o app
