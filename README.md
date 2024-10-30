@@ -1,5 +1,11 @@
 # HubGest
 
+# para rodar o projeto:
+1 - git clone https://github.com/dominguesVini/HubGest.git
+2 - cd HubGest
+3 - npm i
+4 - npx expo start
+
 ## Sobre o app
 
 O **HubGest** é uma plataforma de gestão corporativa voltada para funcionários, com foco na automação de processos administrativos. O app tem como principal objetivo centralizar diversas funcionalidades essenciais para os colaboradores da empresa, proporcionando praticidade e eficiência no acesso a informações como consulta de holerite, marcação de ponto, controle de férias, e perfil do funcionário.
