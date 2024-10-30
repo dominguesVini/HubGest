@@ -1,10 +1,10 @@
 # HubGest
 
 # para rodar o projeto:
-- [1] git clone https://github.com/dominguesVini/HubGest.git
-- [2] cd HubGest
-- [3] npm i
-- [4] npx expo start
+- git clone https://github.com/dominguesVini/HubGest.git
+- cd HubGest
+- npm i
+- npx expo start
 
 ## Sobre o app
 
