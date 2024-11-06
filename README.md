@@ -1,10 +1,13 @@
 # HubGest
 
 # para rodar o projeto:
-- git clone https://github.com/dominguesVini/HubGest.git
-- cd HubGest
-- yarn install
-- npx expo start
+
+```bash
+git clone https://github.com/dominguesVini/HubGest.git
+cd HubGest
+yarn install
+npx expo start
+```
 
 ## Sobre o app
 
