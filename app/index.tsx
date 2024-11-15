@@ -17,7 +17,7 @@ export default function _screen() {
       return;
     } else {
       console.log('2222');
-      router.push('/(auth)/inicio');
+      router.push('/(tabs)/inicio');
     }
   }
 
