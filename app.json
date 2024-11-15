@@ -1,6 +1,7 @@
 {
   "expo": {
     "scheme":"hubGest",
+    "newArchEnabled": true,
     "name": "HubGest",
     "slug": "HubGest",
     "version": "1.0.0",
