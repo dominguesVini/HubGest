@@ -2,7 +2,7 @@ import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { ToastAndroid } from 'react-native';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
-//import logo from '../../assets/logo-hub.png';
+import logo from '../assets/logo-hub.png';
 
 export default function _screen() {
   const [email, setEmail] = useState('');
@@ -24,13 +24,18 @@ export default function _screen() {
   return (
     <View style={styles.container}>
 
-      {/* <Image source={logo} style={styles.logo} />  */}
+      <Image source={logo} style={styles.logo} />  
 
       <Text style={styles.title}>Entre</Text>
-
-      <Text style={styles.registerText}>
-        Novo por aqui? <Text style={styles.registerLink}>Registre-se aqui</Text>
-      </Text>
+     <Text style={styles.registerText}>
+        Novo por aqui?{" "}
+      <Text
+          style={styles.registerLink}
+          onPress={() => router.push("registrar")}
+        >
+          Registre-se aqui
+        </Text>
+        </Text>
 
 
       <Text style={styles.label}>Endereço de E-mail:</Text>
