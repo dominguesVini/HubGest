@@ -1,13 +1,18 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, useWindowDimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { SearchParams } from "expo-router";
 
 const DetalhesScreen = () => {
+  const { width } = useWindowDimensions();
+
+  const circleSize = width * 0.6; // Tornar o círculo proporcional à largura da tela
 
   return (
+    <>
+    <Text style={styles.title}>Detalhes das férias</Text>
     <View style={styles.container}>
-      <Text style={styles.title}>Detalhes das férias</Text>
+     
+
       {/* Card de Período Aquisitivo */}
       <View style={styles.card}>
         <Ionicons name="calendar-outline" size={24} color="#0056b3" style={styles.icon} />
@@ -27,7 +32,12 @@ const DetalhesScreen = () => {
       </View>
 
       {/* Círculo com Dias Restantes */}
-      <View style={styles.circle}>
+      <View
+        style={[
+          styles.circle,
+          { width: circleSize, height: circleSize, borderRadius: circleSize / 2 }, // Dimensões dinâmicas
+        ]}
+      >
         <Text style={styles.circleText}>diasRestantes</Text>
         <Text style={styles.circleSubtext}>Dias</Text>
       </View>
@@ -52,6 +62,7 @@ const DetalhesScreen = () => {
         <Text style={styles.infoValue}>diasRestantes</Text>
       </View>
     </View>
+    </>
   );
 };
 
@@ -61,6 +72,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f0f4f8",
+    paddingHorizontal: "5%", // Espaçamento lateral dinâmico
   },
   title: {
     fontSize: 18,
@@ -68,6 +80,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     textAlign: "center",
     padding: 15,
+    marginBottom: 15,
     backgroundColor: "#2c3e50",
   },
   card: {
@@ -77,7 +90,6 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 8,
     marginBottom: 10,
-    marginHorizontal: 10,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -101,10 +113,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   circle: {
-    width: 400,
-    height: 400,
-    borderRadius: 220,
-    borderWidth: 20,
+    borderWidth: 10,
     borderColor: "green",
     justifyContent: "center",
     alignItems: "center",
@@ -112,7 +121,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   circleText: {
-    fontSize: 32,
+    fontSize: 24, // Dimensão reduzida para telas menores
     fontWeight: "bold",
     color: "#000",
   },
@@ -128,7 +137,6 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 8,
     marginBottom: 10,
-    marginHorizontal: 10,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,

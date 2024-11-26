@@ -1,11 +1,12 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import ImagemPerfil from '../../components/ImagemPerfil';
-import FontAwesome from '@expo/vector-icons/FontAwesome'; // Para os ícones
-const PlaceholderImage = require('../../assets/Ellipse.png');
-import { useState } from 'react';
 import InfoItem from '../../components/InfosPerfil';
+
+const PlaceholderImage = require('../../assets/Ellipse.png');
+
+const { width, height } = Dimensions.get('window'); // Dimensões da tela
 
 export default function PerfilScreen() {
   const [selectedImage, setSelectedImage] = useState<string | undefined>(undefined);
@@ -20,23 +21,23 @@ export default function PerfilScreen() {
     if (!result.canceled) {
       setSelectedImage(result.assets[0].uri);
     } else {
-      alert('You did not select any image.');
+      alert('Você não selecionou nenhuma imagem.');
     }
   };
 
   return (
     <View style={styles.container}>
       <ImagemPerfil imgSource={PlaceholderImage} selectedImage={selectedImage} onPress={pickImageAsync} />
+
       <View style={styles.containerInfosPessoal}>
-      <Text style={styles.nome}>Isabela da Silva Sauro</Text>
-      <Text style={styles.departmento}>Tecnologia da Informação</Text>
+        <Text style={styles.nome}>Isabela da Silva Sauro</Text>
+        <Text style={styles.departmento}>Tecnologia da Informação</Text>
       </View>
-      
-      {/* Adicionando os itens com ícones */}
+
       <View style={styles.infoContainer}>
-        <InfoItem iconName="user" label="Informações Pessoais" route='/detalhesPerfil'/>
-        <InfoItem iconName="graduation-cap" label="Escolaridade" route='/escolaridade'/>
-        <InfoItem iconName="calendar" label="Minhas Férias" route='/ferias'/>
+        <InfoItem iconName="user" label="Informações Pessoais" route="/detalhesPerfil" />
+        <InfoItem iconName="graduation-cap" label="Escolaridade" route="/escolaridade" />
+        <InfoItem iconName="calendar" label="Minhas Férias" route="/ferias" />
       </View>
     </View>
   );
@@ -46,39 +47,40 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
+    justifyContent: 'flex-start', // Melhor alinhamento para telas maiores
+    paddingTop: height * 0.05, // Espaçamento dinâmico superior
+    backgroundColor: '#F5F5F5', // Fundo para destacar o design
   },
   nome: {
-    fontSize: 30,
+    fontSize: width * 0.06, // Fonte responsiva
     fontWeight: 'bold',
     color: '#003D80',
+    textAlign: 'center',
+    marginTop: height * 0.02,
   },
   containerInfosPessoal: {
-    fontSize: 30,
-    marginTop: 360,
-    fontWeight: 'bold',
-    color: '#003D80',
+    alignItems: 'center',
+    marginTop: height * 0.27, // Espaçamento dinâmico abaixo da imagem
   },
   departmento: {
-    fontSize: 20,
+    fontSize: width * 0.045, // Fonte ajustada
     color: 'black',
     fontWeight: 'bold',
+    textAlign: 'center',
     marginTop: 5,
   },
   infoContainer: {
-    marginTop: 100,
-    width: '80%',
+    marginTop: height * 0.05,
+    width: '90%', // Ajuste para ocupar a maior parte da tela
   },
   infoItem: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 40,  // Aumenta o espaçamento entre os itens
-    justifyContent: 'flex-start',  // Centraliza os itens horizontalmente
+    alignItems: 'center',
+    marginBottom: height * 0.03,
   },
   infoText: {
-    fontSize: 24,
+    fontSize: width * 0.045,
     color: 'black',
-    marginLeft: 10, 
+    marginLeft: 10,
   },
 });

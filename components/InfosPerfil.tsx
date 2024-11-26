@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { router } from 'expo-router';
 
@@ -8,6 +8,8 @@ type InfoItemProps = {
   label: string;
   route: string; 
 };
+
+const { width, height } = Dimensions.get('window'); // Dimensões da tela
 
 const InfoItem: React.FC<InfoItemProps> = ({ iconName, label, route }) => {
 
@@ -37,7 +39,7 @@ const styles = StyleSheet.create({
     marginRight: 15, 
   },
   infoText: {
-    fontSize: 32,
+    fontSize: width * 0.045,
     color: 'black',
     textAlign: 'left', 
     flex: 1,
