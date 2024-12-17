@@ -11,9 +11,9 @@ export default function Layout() {
   }, []);
 
   return (
-      <Stack>
+    <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="index" options={{ headerShown: false }} />
-      </Stack>
+    </Stack>
   );
 }
