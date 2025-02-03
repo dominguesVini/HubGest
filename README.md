@@ -55,9 +55,9 @@ O **HubGest** é uma plataforma de gestão corporativa voltada para funcionário
    Inicio - 25/11/2024
    Fim    - 23/12/2024
    ### a ser feito
-   - [ ] Criação do banco de dados(1 semana)
-   - [ ] Criação de api para consultar os dados(2 semanas)
-   - [ ] Integração do app com api(funcionalidades básicas)(1 semana)
+   - [X] Criação do banco de dados(1 semana)
+   - [X] Criação de api para consultar os dados(2 semanas)
+   - [X] Integração do app com api(funcionalidades básicas)(1 semana)
          
 ### sprint 04 Checkpoint 4
    Inicio - 23/12/2024
