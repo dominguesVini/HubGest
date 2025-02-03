@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -6,9 +6,14 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
+  Button,
+  Alert,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Ionicons } from "@expo/vector-icons";
+import { menuSchema } from "../../validations/cardapioZod";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 // Função para formatar a data no formato YYYY-MM-DD
 const getFormattedDate = (date: Date) => {
@@ -47,6 +52,8 @@ export default function CardapioScreen() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [dates, setDates] = useState<string[]>([]);
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     setDates(getAllDatesOfCurrentMonth()); // 🔹 Preenche a lista com todas as datas do mês
@@ -67,8 +74,15 @@ export default function CardapioScreen() {
 
       const data: MenuData = await response.json();
 
-      console.log("data", data);
-      setMenuData(data);
+      const resultado = menuSchema.safeParse(data);
+      if (!resultado.success) {
+        Alert.alert("Erro", "Os dados recebidos não estão no formato esperado.");
+        return;
+      } else {
+        console.log("Dados válidos:", resultado.data);
+        setMenuData(data);
+      }
+
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erro desconhecido");
     } finally {
@@ -173,6 +187,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     marginVertical: 10,
+  },
+  sheetContent: { 
+    flex: 1, 
+    alignItems: "center", 
+    padding: 20 
   },
   datePicker: {
     marginBottom: 10,
