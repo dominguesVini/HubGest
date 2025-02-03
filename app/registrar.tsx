@@ -76,7 +76,7 @@ export default function RegisterScreen() {
       </View>
 
       <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}   onPress={() => router.push("")}>Próximo</Text>
+        <Text style={styles.buttonText}   onPress={() => router.push("/(tabs)/inicio")}>Registrar-se</Text>
       </TouchableOpacity>
     </ScrollView>
   );

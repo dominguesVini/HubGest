@@ -1,6 +1,12 @@
-import React from "react";
-import { View, Text, StyleSheet, FlatList, SafeAreaView, Dimensions } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, FlatList, SafeAreaView, Dimensions, ActivityIndicator } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+
+type EscolaridadeItem = {
+  idCurso: string;
+  nome: string;
+  tipoCurso: string;
+};
 
 const data = [
   {
@@ -11,13 +17,36 @@ const data = [
   },
 ];
 
+
 const EscolaridadeScreen = () => {
+  const [escolaridadeData, setEscolaridadeData] = useState<EscolaridadeItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const fetchEscolaridade = async () => {
+    try {
+      const response = await fetch("http://192.168.1.31:3000/api/cursos/3");
+      const data = await response.json();
+      setEscolaridadeData(data);
+      console.log(data)
+      setLoading(true);
+    } catch (error) {
+      console.error("Erro ao buscar férias:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchEscolaridade();
+  }, []);
+
+
   const renderItem = ({ item }: { item: any }) => (
     <View style={styles.card}>
-      <Ionicons name={item.icon} size={32} color="#2C3E50" style={styles.icon} />
+      <Ionicons name={"school-outline"} size={32} color="#2C3E50" style={styles.icon} />
       <View>
-        <Text style={styles.cardTitle}>{item.title}</Text>
-        <Text style={styles.cardDescription}>{item.description}</Text>
+        <Text style={styles.cardTitle}>{item.nome}</Text>
+        <Text style={styles.cardDescription}>{item.tipoCurso}</Text>
       </View>
     </View>
   );
@@ -29,13 +58,19 @@ const EscolaridadeScreen = () => {
         <Text style={styles.headerTitle}>Escolaridade</Text>
       </View>
 
-      {/* Lista de escolaridade */}
+           {loading ? (
+             // Exibir o indicador de carregamento enquanto os dados estão sendo buscados
+             <View style={styles.loadingContainer}>
+               <ActivityIndicator size="large" color="#0056b3" />
+               <Text style={styles.loadingText}>Carregando...</Text>
+             </View>
+           ) :
       <FlatList
-        data={data}
-        keyExtractor={(item) => item.id}
+      data={escolaridadeData}
+        keyExtractor={(item) => item.idCurso}
         renderItem={renderItem}
         contentContainerStyle={styles.list}
-      />
+      /> }
     </SafeAreaView>
   );
 };
@@ -46,6 +81,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f0f4f8",
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: "#888",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   header: {
     backgroundColor: "#2C3E50",

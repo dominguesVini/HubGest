@@ -1,58 +1,83 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   FlatList,
   TouchableOpacity,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function CardapioScreen() {
-  const [selectedDate, setSelectedDate] = useState("05/08/2024");
+// Função para formatar a data no formato YYYY-MM-DD
+const getFormattedDate = (date: Date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
 
-  const menuData: Record<"Caseira" | "Lanches Ceia", string[]> = {
-    Caseira: [
-      "Suíno ao barbecue",
-      "Lasanha de frango",
-      "Ovos ao molho de tomate",
-      "Risoto de rúcula com tomate seco",
-      "Legumes sauté (batatas, cenoura, abobrinha, brócolis com couve-flor)",
-      "Salada de agrião",
-      "Salada de rabanete",
-      "Salada de beterraba com cheiro-verde",
-      "Creme cheesecake com calda de goiaba",
-    ],
-    "Lanches Ceia": [
-      "X-bacon",
-      "Croissant de chocolate",
-      "Sopa de creme de batatas",
-      "Salada de alface crespa",
-      "Salada de tomate",
-      "Sachê de maionese, catchup e mostarda",
-      "Café/leite/chá/achocolatado/suco",
-    ],
+const getAllDatesOfCurrentMonth = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth(); // Mês atual (0-indexado)
+
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+
+  let dates = [];
+  for (let d = firstDay; d <= lastDay; d.setDate(d.getDate() + 1)) {
+    dates.push(getFormattedDate(new Date(d))); // Formata e adiciona ao array
+  }
+
+  return dates;
+};
+
+// Definindo o formato dos dados do cardápio
+type MenuData = Record<"Caseira" | "Lanches Ceia", string[]>;
+
+export default function CardapioScreen() {
+  // Inicializa o estado com a data atual no formato ISO
+  const [selectedDate, setSelectedDate] = useState(getFormattedDate(new Date()));
+  const [menuData, setMenuData] = useState<MenuData>({
+    Caseira: [],
+    "Lanches Ceia": [],
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [dates, setDates] = useState<string[]>([]);
+
+  useEffect(() => {
+    setDates(getAllDatesOfCurrentMonth()); // 🔹 Preenche a lista com todas as datas do mês
+  }, []);
+
+  // Função para buscar o cardápio no backend
+  const handleSearch = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Ajuste a URL conforme o endereço do seu backend
+      const response = await fetch(`http://192.168.1.31:3000/api/cardapio/${selectedDate}`);
+
+      if (!response.ok) {
+        throw new Error("Erro ao buscar o cardápio");
+      }
+
+      const data: MenuData = await response.json();
+
+      console.log("data", data);
+      setMenuData(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Erro desconhecido");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const renderSection = ({ item }: { item: string }) => (
-    <View
-      style={[
-        styles.card,
-        item === "Caseira" ? styles.caseiraCard : styles.lanchesCard,
-      ]}
-    >
-      <View
-        style={[
-          styles.cardIndicator,
-          item === "Caseira"
-            ? styles.caseiraIndicator
-            : styles.lanchesIndicator,
-        ]}
-      />
-      <Text style={styles.itemText}>{item}</Text>
-    </View>
-  );
+  // Verifica se ambos os arrays estão vazios
+  const isMenuEmpty = !menuData.Caseira.length && !menuData["Lanches Ceia"].length;
 
   return (
     <View style={styles.container}>
@@ -60,21 +85,27 @@ export default function CardapioScreen() {
       <Text style={styles.header}>Cardápio</Text>
 
       {/* Seleção de data */}
+      {/* 🔹 Picker com todas as datas do mês */}
       <View style={styles.datePicker}>
         <Picker
           selectedValue={selectedDate}
           style={styles.picker}
           onValueChange={(itemValue) => setSelectedDate(itemValue)}
         >
-          <Picker.Item label="05/08/2024" value="05/08/2024" />
-          <Picker.Item label="06/08/2024" value="06/08/2024" />
+          {dates.map((date) => (
+            <Picker.Item key={date} label={date} value={date} />
+          ))}
         </Picker>
       </View>
 
       {/* Botão de Buscar */}
-      <TouchableOpacity style={styles.searchButton}>
+      <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
         <Text style={styles.searchText}>Buscar</Text>
       </TouchableOpacity>
+
+      {/* Mensagens de carregamento ou erro */}
+      {loading && <ActivityIndicator size="large" color="#007BFF" />}
+      {error && <Text style={styles.errorText}>{error}</Text>}
 
       {/* Destaque */}
       <View style={styles.highlightCard}>
@@ -83,40 +114,50 @@ export default function CardapioScreen() {
         <Ionicons name="star" size={24} color="#FFD700" />
       </View>
 
-      {/* Lista de Itens */}
-      <FlatList
-        data={Object.keys(menuData)} // Renderiza "Caseira" e "Lanches Ceia"
-        keyExtractor={(item) => item}
-        renderItem={({ item }) => (
-          <View>
-            <Text style={styles.sectionTitle}>Tipo de refeição: {item}</Text>
-            <FlatList
-              data={menuData[item as keyof typeof menuData]}
-              keyExtractor={(item, index) => `${item}-${index}`}
-              renderItem={({ item }) => (
-                <View
-                  style={[
-                    styles.card,
-                    item === "Caseira"
-                      ? styles.caseiraCard
-                      : styles.lanchesCard,
-                  ]}
-                >
+      {/* Se não houver cardápio, exibe mensagem; caso contrário, renderiza a lista */}
+      {isMenuEmpty ? (
+        <View style={styles.noMenuContainer}>
+          <Text style={styles.noMenuText}>
+            Não há cardápio disponível para a data selecionada
+          </Text>
+        </View>
+      ) : (
+        <FlatList
+          data={Object.keys(menuData)} // Renderiza as chaves: "Caseira" e "Lanches Ceia"
+          keyExtractor={(item) => item}
+          renderItem={({ item: tipoRefeicao }) => (
+            <View>
+              <Text style={styles.sectionTitle}>
+                Tipo de refeição: {tipoRefeicao}
+              </Text>
+              <FlatList
+                data={menuData[tipoRefeicao as keyof MenuData]}
+                keyExtractor={(item, index) => `${item}-${index}`}
+                renderItem={({ item }) => (
                   <View
                     style={[
-                      styles.cardIndicator,
-                      item === "Caseira"
-                        ? styles.caseiraIndicator
-                        : styles.lanchesIndicator,
+                      styles.card,
+                      tipoRefeicao === "Caseira"
+                        ? styles.caseiraCard
+                        : styles.lanchesCard,
                     ]}
-                  />
-                  <Text style={styles.itemText}>{item}</Text>
-                </View>
-              )}
-            />
-          </View>
-        )}
-      />
+                  >
+                    <View
+                      style={[
+                        styles.cardIndicator,
+                        tipoRefeicao === "Caseira"
+                          ? styles.caseiraIndicator
+                          : styles.lanchesIndicator,
+                      ]}
+                    />
+                    <Text style={styles.itemText}>{item}</Text>
+                  </View>
+                )}
+              />
+            </View>
+          )}
+        />
+      )}
     </View>
   );
 }
@@ -154,6 +195,11 @@ const styles = StyleSheet.create({
   searchText: {
     color: "#fff",
     fontWeight: "bold",
+  },
+  errorText: {
+    color: "red",
+    textAlign: "center",
+    marginBottom: 10,
   },
   highlightCard: {
     flexDirection: "row",
@@ -211,5 +257,14 @@ const styles = StyleSheet.create({
   itemText: {
     fontSize: 16,
     color: "#333",
+  },
+  noMenuContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+  },
+  noMenuText: {
+    fontSize: 16,
+    color: "#555",
   },
 });
